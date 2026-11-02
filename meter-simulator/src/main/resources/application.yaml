@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: meter-simulator
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JacksonJsonSerializer
+      properties:
+        # No añadir cabeceras con el nombre de nuestra clase Java:
+        # el consumidor es otro servicio y no tiene por qué conocerla
+        spring.json.add.type.headers: false
+
+server:
+  port: 8082
