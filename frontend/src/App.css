@@ -1,0 +1,59 @@
+main {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 32px 16px;
+}
+
+.subtitulo {
+  color: #666;
+  margin-top: -8px;
+}
+
+.error {
+  background: #fdecea;
+  color: #b3261e;
+  padding: 12px 16px;
+  border-radius: 8px;
+}
+
+.tarjetas {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 12px;
+  margin: 24px 0 32px;
+}
+
+.tarjeta {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 12px 16px;
+}
+
+.tarjeta h2 {
+  font-size: 14px;
+  margin: 0 0 8px;
+  color: #666;
+}
+
+.valor {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.hora {
+  color: #666;
+  margin: 4px 0 0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 8px;
+  border-bottom: 1px solid #eee;
+}
