@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: consumption-service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/consumo
+    username: energia
+    password: energia
+  jpa:
+    hibernate:
+      ddl-auto: update   # crea la tabla sola; en la etapa 7 lo cambiamos por Flyway
+    open-in-view: false
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: consumption-service
+      auto-offset-reset: earliest   # si el grupo es nuevo, lee desde el principio
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JacksonJsonDeserializer
+      properties:
+        # Convierte siempre el JSON en nuestro record, sin mirar cabeceras
+        spring.json.value.default.type: com.energia.consumption.kafka.LecturaMedidor
+        spring.json.use.type.headers: false
+        spring.json.trusted.packages: com.energia.consumption.kafka
+
+server:
+  port: 8081
