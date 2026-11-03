@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import './App.css'
+import Tarifas from './Tarifas.jsx'
 
 const CADA_CUANTO_MS = 5000
 
@@ -69,6 +70,7 @@ function App() {
           ))}
         </tbody>
       </table>
+      <Tarifas />
     </main>
   )
 }

@@ -57,3 +57,25 @@ td {
   padding: 8px;
   border-bottom: 1px solid #eee;
 }
+/* Etapa 6: tarifas */
+.tarjeta h3 {
+  font-size: 14px;
+  margin: 0 0 8px;
+  color: #666;
+}
+
+.descripcion {
+  color: #666;
+  font-size: 13px;
+  margin: 4px 0 0;
+}
+
+tr.ahora {
+  background: #fff8e1;
+  font-weight: 600;
+}
+
+td.mas-barata {
+  color: #1b7f3b;
+  font-weight: 600;
+}
