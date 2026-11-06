@@ -7,20 +7,24 @@ spring:
     password: energia
   jpa:
     hibernate:
-      ddl-auto: update   # crea la tabla sola; en la etapa 7 lo cambiamos por Flyway
+      ddl-auto: validate   # el esquema lo crea Flyway; Hibernate solo lo comprueba
     open-in-view: false
   kafka:
     bootstrap-servers: localhost:9092
     consumer:
       group-id: consumption-service
-      auto-offset-reset: earliest   # si el grupo es nuevo, lee desde el principio
+      auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JacksonJsonDeserializer
       properties:
-        # Convierte siempre el JSON en nuestro record, sin mirar cabeceras
         spring.json.value.default.type: com.energia.consumption.kafka.LecturaMedidor
         spring.json.use.type.headers: false
         spring.json.trusted.packages: com.energia.consumption.kafka
 
 server:
   port: 8081
+
+# Dónde está tariff-service. En Docker o Kubernetes se cambia con la
+# variable de entorno TARIFAS_URL, sin tocar el código.
+tarifas:
+  url: http://localhost:8083
