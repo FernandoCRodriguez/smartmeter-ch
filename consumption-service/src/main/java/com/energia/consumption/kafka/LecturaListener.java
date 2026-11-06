@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
-import com.energia.consumption.lectura.Lectura;
 import com.energia.consumption.lectura.LecturaRepository;
 
 @Component
@@ -21,7 +20,28 @@ public class LecturaListener {
 
     @KafkaListener(topics = "lecturas-medidor")
     public void recibir(LecturaMedidor evento) {
-        repository.save(new Lectura(evento.medidorId(), evento.momento(), evento.kwh()));
-        log.info("Guardada lectura de {}", evento.medidorId());
+        validar(evento);
+
+        // Si la lectura ya estaba guardada (Kafka la ha entregado dos veces),
+        // la base de datos la descarta y nos devuelve 0
+        int insertadas = repository.guardarSiNoExiste(evento.medidorId(), evento.momento(), evento.kwh());
+
+        if (insertadas == 0) {
+            log.warn("Lectura duplicada ignorada: {} {}", evento.medidorId(), evento.momento());
+        } else {
+            log.info("Guardada lectura de {}", evento.medidorId());
+        }
+    }
+
+    private void validar(LecturaMedidor evento) {
+        if (evento.medidorId() == null || evento.medidorId().isBlank()) {
+            throw new LecturaInvalidaException("Lectura sin id de contador");
+        }
+        if (evento.momento() == null) {
+            throw new LecturaInvalidaException("Lectura sin momento del contador " + evento.medidorId());
+        }
+        if (evento.kwh() < 0) {
+            throw new LecturaInvalidaException("Consumo negativo del contador " + evento.medidorId() + ": " + evento.kwh());
+        }
     }
 }
